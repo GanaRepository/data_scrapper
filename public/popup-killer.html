@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popup Killer Test</title>
+</head>
+<body>
+    <h1>🚀 POPUP KILLER</h1>
+    <p>Run this in the browser console on the problematic page:</p>
+    
+    <textarea style="width:100%; height:200px; font-family:monospace;">
+// NUCLEAR POPUP KILLER - Copy and paste this into browser console
+
+(function() {
+    console.log('🚀 STARTING POPUP NUKE...');
+    
+    // Remove ALL fixed/absolute positioned elements
+    const allElements = document.querySelectorAll('*');
+    let removed = 0;
+    
+    allElements.forEach(el => {
+        const styles = window.getComputedStyle(el);
+        const zIndex = parseInt(styles.zIndex) || 0;
+        
+        if ((styles.position === 'fixed' || styles.position === 'absolute') && zIndex > 10) {
+            console.log('REMOVING:', el);
+            el.remove();
+            removed++;
+        }
+    });
+    
+    // Target specific admission popup content
+    const suspiciousElements = document.querySelectorAll('*');
+    suspiciousElements.forEach(el => {
+        const text = el.textContent || '';
+        if (text.includes('Admission') || 
+            text.includes('Apply') || 
+            text.includes('Click to') ||
+            text.includes('Session 2026') ||
+            text.includes('PRE-NURSERY') ||
+            text.includes('CLASS XI')) {
+            
+            const styles = window.getComputedStyle(el);
+            if (styles.position === 'fixed' || styles.position === 'absolute' || parseInt(styles.zIndex) > 50) {
+                console.log('REMOVING ADMISSION POPUP:', el);
+                el.remove();
+                removed++;
+            }
+        }
+    });
+    
+    // Remove common popup containers
+    const popupSelectors = [
+        '[class*="modal" i]',
+        '[class*="popup" i]',
+        '[class*="overlay" i]',
+        '[class*="dialog" i]',
+        '[role="dialog"]',
+        '[aria-modal="true"]'
+    ];
+    
+    popupSelectors.forEach(selector => {
+        try {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.remove();
+                removed++;
+            });
+        } catch(e) {}
+    });
+    
+    console.log(`💥 NUKED ${removed} ELEMENTS!`);
+    alert(`💥 POPUP NUKE COMPLETE! Removed ${removed} elements.`);
+})();
+    </textarea>
+    
+    <hr>
+    
+    <h2>Or try these individual commands:</h2>
+    <ul>
+        <li><button onclick="copyToClipboard('document.querySelectorAll(`[role=&quot;dialog&quot;]`).forEach(el => el.remove())')">Remove all dialogs</button></li>
+        <li><button onclick="copyToClipboard('document.querySelectorAll(`*`).forEach(el => { if(window.getComputedStyle(el).position === `fixed` && parseInt(window.getComputedStyle(el).zIndex) > 100) el.remove(); })')">Remove high z-index elements</button></li>
+        <li><button onclick="copyToClipboard('document.body.style.overflow = `auto`; document.documentElement.style.overflow = `auto`;')">Enable scrolling</button></li>
+    </ul>
+    
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard! Paste in browser console.');
+            });
+        }
+    </script>
+</body>
+</html>
